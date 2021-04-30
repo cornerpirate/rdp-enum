@@ -7,9 +7,10 @@ Expected output:
 ```
 PS C:\Users\testuser\Desktop> .\rdp-enum.ps1
 Checking: RDPServer
-[*] PortNumber          : Malware will look for 3389 by default. Consider altering this.
-[*] SecurityLayer       : You are using the most secure TLS implementation.
-[*] MinEncryptionLevel  : Encryption levels are not set to 'FIPS-Compliant'.
+[*] PortNumber                  : Malware will look for 3389 by default. Consider altering this.
+[*] SecurityLayer               : You are using the most secure TLS implementation.
+[*] MinEncryptionLevel          : Encryption levels are not set to 'High' or 'FIPS-Compliant'.
+[*] UserAuthentication (NLA)    : NLA is required
 ```
 
 It uses a green font for good configurations and red for things that can be worked on.
