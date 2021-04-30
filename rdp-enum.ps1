@@ -17,11 +17,11 @@ Write-Output "Checking: $env:computername "
 $port = (Get-ItemProperty  HKLM:\SYSTEM\CurrentControlSet\Control\Termin*Server\WinStations\RDP*CP\).PortNumber
 if ( $port -eq 3389 )
 {
-    Write-Output "[*] PortNumber  `t: Malware will look for 3389 by default. Consider altering this." | Red
+    Write-Output "[*] PortNumber  `t`t: Malware will look for 3389 by default. Consider altering this." | Red
 } 
 else 
 {
-    Write-Output "[*] PortNumber  `t: Congratulations you have modified the default port." | Green
+    Write-Output "[*] PortNumber  `t`t: Congratulations you have modified the default port." | Green
 }
 
 # Check TLS implementation
@@ -32,11 +32,11 @@ $tlsImplementation=(Get-ItemProperty  HKLM:\SYSTEM\CurrentControlSet\Control\Ter
 
 if ( $tlsImplementation -ne 2 )
 {
-    Write-Output "[*] SecurityLayer`t: was not set to 'High'." | Red
+    Write-Output "[*] SecurityLayer`t`t: was not set to 'High'." | Red
 }
 else 
 {
-    Write-Output "[*] SecurityLayer`t: You are using the most secure TLS implementation." | Green
+    Write-Output "[*] SecurityLayer`t`t: You are using the most secure TLS implementation." | Green
 }
 
 
@@ -49,9 +49,23 @@ $encryption=(Get-ItemProperty  HKLM:\SYSTEM\CurrentControlSet\Control\Termin*Ser
 
 if ( $encryption -ne 4 )
 {
-    Write-Output "[*] MinEncryptionLevel`t: Encryption levels are not set to 'FIPS-Compliant'." | Red
+    Write-Output "[*] MinEncryptionLevel`t`t: Encryption levels are not set to 'FIPS-Compliant'." | Red
 }
 else 
 {
-    Write-Output "[*] MinEncryptionLevel`t: You are using FIPS-Compliant encryption." | Green
+    Write-Output "[*] MinEncryptionLevel`t`t: You are using FIPS-Compliant encryption." | Green
+}
+
+# Check if NLA is anabled
+# 0 - Specifies that Network-Level user authentication is not required before the remote desktop connection is established. This is the default value.
+# 1 - Specifies that Network-Level user authentication is required.
+$nla=(Get-ItemProperty  HKLM:\SYSTEM\CurrentControlSet\Control\Termin*Server\WinStations\RDP*CP\).UserAuthentication
+
+if ( $nla -ne 1 )
+{
+    Write-Output "[*] UserAuthentication (NLA)`t: NLA is not required" | Red
+}
+else 
+{
+    Write-Output "[*] UserAuthentication (NLA) `t: NLA is required" | Green
 }
