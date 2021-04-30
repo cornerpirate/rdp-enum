@@ -32,7 +32,7 @@ $tlsImplementation=(Get-ItemProperty  HKLM:\SYSTEM\CurrentControlSet\Control\Ter
 
 if ( $tlsImplementation -ne 2 )
 {
-    Write-Output "[*] SecurityLayer`t`t: was not set to 'High'." | Red
+    Write-Output "[*] SecurityLayer`t`t: Was not set to 'High'. Recommended setting is '2'" | Red
 }
 else 
 {
@@ -47,13 +47,18 @@ else
 # 4 - "FIPS-Compliant" - This is the maximum supported level. Will exclude clients that do not support it.
 $encryption=(Get-ItemProperty  HKLM:\SYSTEM\CurrentControlSet\Control\Termin*Server\WinStations\RDP*CP\).MinEncryptionLevel
 
-if ( $encryption -ne 4 )
+if ( $encryption -le 2  )
 {
-    Write-Output "[*] MinEncryptionLevel`t`t: Encryption levels are not set to 'FIPS-Compliant'." | Red
+    Write-Output "[*] MinEncryptionLevel`t`t: Not set to 'High' or 'FIPS-Compliant'. Recommended setting is '3' or '4'" | Red
 }
-else 
+if( $encryption  -eq 3)
 {
-    Write-Output "[*] MinEncryptionLevel`t`t: You are using FIPS-Compliant encryption." | Green
+    Write-Output "[*] MinEncryptionLevel`t`t: You are using 'High', this is acceptable " | Green
+}
+
+if( $encryption  -eq 4)
+{
+    Write-Output "[*] MinEncryptionLevel`t`t: You are using 'FIPS-Compliant', this is recommended " | Green	
 }
 
 # Check if NLA is anabled
@@ -63,7 +68,7 @@ $nla=(Get-ItemProperty  HKLM:\SYSTEM\CurrentControlSet\Control\Termin*Server\Win
 
 if ( $nla -ne 1 )
 {
-    Write-Output "[*] UserAuthentication (NLA)`t: NLA is not required" | Red
+    Write-Output "[*] UserAuthentication (NLA)`t: NLA is not required. Recommended setting is '1'" | Red
 }
 else 
 {
